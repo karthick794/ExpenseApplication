@@ -38,7 +38,7 @@ class _ExpenseHomeScreenState extends State<ExpenseHomeScreen> {
       body: Column(
         children: [
           const Text("chart"),
-          Expanded(child: ExpenseListView(expenseList: expenseList))
+          Expanded(child: ExpenseListView(expenseList: expenseList),)
         ],
       ),
     );
