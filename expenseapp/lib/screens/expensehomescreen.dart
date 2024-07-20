@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:expenseapp/models/expense.dart';
 import 'package:expenseapp/widgets/addexpenseitemwidget.dart';
 import 'package:expenseapp/widgets/expenselist.dart';
@@ -16,10 +18,21 @@ class _ExpenseHomeScreenState extends State<ExpenseHomeScreen> {
     showModalBottomSheet(
         context: context,
         isDismissible: true,
-        isScrollControlled: true,
-        builder: (ctx) => const AddexpenseItemWidget());
+        isScrollControlled: false,
+        builder: (ctx) =>  AddexpenseItemWidget(addexpesne: addExpenseData,));
   }
+void addExpenseData(ExpenseModel expense)
+{
+  setState(() {
+    expenseList.add(expense);
+  });
+}
 
+void removeexpense(ExpenseModel expense){
+  setState(() {
+    expenseList.remove(expense);
+  });
+}
   final List<ExpenseModel> expenseList = [
     ExpenseModel(
         expenseName: "Travel",
@@ -52,17 +65,17 @@ class _ExpenseHomeScreenState extends State<ExpenseHomeScreen> {
               onPressed: openAddExpenseModelSheet, icon: const Icon(Icons.add))
         ],
       ),
-      body: Column(
-        children: [
-          Text(
-            "Expense List",
-            style: GoogleFonts.lato(fontSize: 30, fontWeight: FontWeight.bold),
+      body:  Column(
+            children: [
+              Text(
+                "Expense List",
+                style: GoogleFonts.lato(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              Expanded(
+                child: ExpenseListView(expenseList: expenseList,removeExpenseList: removeexpense),
+              )
+            ],
           ),
-          Expanded(
-            child: ExpenseListView(expenseList: expenseList),
-          )
-        ],
-      ),
-    );
+        );
   }
 }

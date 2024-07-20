@@ -5,8 +5,8 @@ import 'package:expenseapp/models/expense.dart';
 final formatter = DateFormat.yMd();
 
 class AddexpenseItemWidget extends StatefulWidget {
-  const AddexpenseItemWidget({super.key});
-
+  const AddexpenseItemWidget({super.key,required this.addexpesne});
+final void Function(ExpenseModel expense) addexpesne;
   @override
   State<AddexpenseItemWidget> createState() => _AddexpenseItemWidgetState();
 }
@@ -19,7 +19,7 @@ class _AddexpenseItemWidgetState extends State<AddexpenseItemWidget> {
   var titleEditcontroller = TextEditingController();
   var amountEditController = TextEditingController();
   DateTime? selectedDate;
-  Category selectedCategory=Category.lesiure;
+  Category selectedCategory = Category.lesiure;
 
   @override
   void dispose() {
@@ -43,6 +43,31 @@ class _AddexpenseItemWidgetState extends State<AddexpenseItemWidget> {
     });
   }
 
+  void submitExpenseData() {
+    final enterAmount = double.tryParse(amountEditController.text);
+    final invalidAmount = enterAmount == null || enterAmount < 0;
+    if (titleEditcontroller.text.trim().isEmpty ||
+        invalidAmount ||
+        selectedDate == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text("Input Error"),
+                content: const Text("please give valid input details"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Ok")),
+                ],
+              ));
+              return;
+    }
+    widget.addexpesne(ExpenseModel(expenseName: titleEditcontroller.text, amount: enterAmount, dateTime: selectedDate!, category: selectedCategory));
+     Navigator.pop(context);
+  }
+
   void clearEdtiorvalue() {
     titleEditcontroller.clear();
     amountEditController.clear();
@@ -52,7 +77,7 @@ class _AddexpenseItemWidgetState extends State<AddexpenseItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.fromLTRB(16,48,16,16),
       child: Column(
         children: [
           TextField(
@@ -89,43 +114,34 @@ class _AddexpenseItemWidgetState extends State<AddexpenseItemWidget> {
               )),
             ],
           ),
-          const SizedBox(height: 40,),
+          const SizedBox(
+            height: 40,
+          ),
           Row(
             children: [
               DropdownButton(
-                value: selectedCategory,
+                  value: selectedCategory,
                   items: Category.values
-                      .map(
-                        (category) =>
-                          DropdownMenuItem(
-                            value: category,
-                            child: Text(category.name.toString()
-                            )
-                            )
-                            )
+                      .map((category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category.name.toString())))
                       .toList(),
                   onChanged: (value) {
                     if (value == null) {
-                        return;
-                      }
+                      return;
+                    }
                     setState(() {
                       selectedCategory = value;
                     });
                   }),
-             const Spacer(),
+              const Spacer(),
               TextButton(
                   onPressed: clearEdtiorvalue, child: const Text("Cancel")),
               const SizedBox(
                 width: 10,
               ),
               ElevatedButton(
-                  onPressed: () {
-                    // print(_userInput);
-                    print(titleEditcontroller.text +
-                        amountEditController.text +
-                        " " +
-                        formatter.format(selectedDate!).toString());
-                  },
+                  onPressed: submitExpenseData,
                   child: const Text("Add Expense"))
             ],
           )
