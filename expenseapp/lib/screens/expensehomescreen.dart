@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:expenseapp/models/expense.dart';
 import 'package:expenseapp/widgets/addexpenseitemwidget.dart';
@@ -33,28 +32,8 @@ void removeexpense(ExpenseModel expense){
     expenseList.remove(expense);
   });
 }
-  final List<ExpenseModel> expenseList = [
-    ExpenseModel(
-        expenseName: "Travel",
-        amount: 20.0,
-        dateTime: DateTime.now(),
-        category: Category.travel),
-    ExpenseModel(
-        expenseName: "Food",
-        amount: 10.0,
-        dateTime: DateTime.now(),
-        category: Category.food),
-    ExpenseModel(
-        expenseName: "Work",
-        amount: 30.0,
-        dateTime: DateTime.now(),
-        category: Category.work),
-    ExpenseModel(
-        expenseName: "Lesiure",
-        amount: 5.0,
-        dateTime: DateTime.now(),
-        category: Category.lesiure),
-  ];
+
+ final List<ExpenseModel> expenseList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
