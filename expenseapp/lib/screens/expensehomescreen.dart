@@ -1,8 +1,9 @@
 import 'package:expenseapp/models/expense.dart';
 import 'package:expenseapp/widgets/addexpenseitemwidget.dart';
+import 'package:expenseapp/widgets/chart.dart';
 import 'package:expenseapp/widgets/expenselist.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 
 class ExpenseHomeScreen extends StatefulWidget {
   const ExpenseHomeScreen({super.key});
@@ -65,10 +66,7 @@ class _ExpenseHomeScreenState extends State<ExpenseHomeScreen> {
       ),
       body: Column(
         children: [
-          Text(
-            "Expense List",
-            style: GoogleFonts.lato(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
+             Chart(expenses: expenseList),
           Expanded(
             child: maincontent,
           )
