@@ -2,10 +2,14 @@
 
 import 'package:expenseapp/screens/expensehomescreen.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter/services.dart';
 
 var kColors =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 96, 59, 181));
 void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((fn){  //device orientation lock
+// });
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData().copyWith(
@@ -20,3 +24,4 @@ void main() {
     home: const ExpenseHomeScreen(),
   ));
 }
+

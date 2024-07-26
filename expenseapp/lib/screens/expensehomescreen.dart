@@ -18,7 +18,7 @@ class _ExpenseHomeScreenState extends State<ExpenseHomeScreen> {
         context: context,
         useSafeArea: true,
         isDismissible: false,
-        isScrollControlled: true,
+        isScrollControlled: false,
         builder: (ctx) => AddexpenseItemWidget(
               addexpesne: addExpenseData,
             ));
@@ -51,12 +51,13 @@ class _ExpenseHomeScreenState extends State<ExpenseHomeScreen> {
   final List<ExpenseModel> expenseList = [];
   @override
   Widget build(BuildContext context) {
+   final width=MediaQuery.of(context).size.width;
     Widget maincontent = const Center(child: Text("No Expense data "));
     if (expenseList.isNotEmpty) {
       maincontent = ExpenseListView(
           expenseList: expenseList, removeExpenseList: removeexpense);
     }
-    return Scaffold(
+    return Scaffold(                
       appBar: AppBar(
         title: const Text("Flutter Widget"),
         actions: [
@@ -64,14 +65,21 @@ class _ExpenseHomeScreenState extends State<ExpenseHomeScreen> {
               onPressed: openAddExpenseModelSheet, icon: const Icon(Icons.add))
         ],
       ),
-      body: Column(
+      body: width< 600 ? Column(
         children: [
              Chart(expenses: expenseList),
           Expanded(
             child: maincontent,
           )
         ],
-      ),
+      ):Row(
+          children: [
+             Expanded(child: Chart(expenses: expenseList)),
+          Expanded(
+            child: maincontent,
+          )
+        ],
+      )
     );
   }
 }
